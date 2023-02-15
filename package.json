@@ -20,7 +20,7 @@
     "@angular/platform-browser": "~13.3.0",
     "@angular/platform-browser-dynamic": "~13.3.0",
     "@angular/router": "~13.3.0",
-    "@auth0/auth0-angular": "^1.9.0",
+    "@auth0/auth0-angular": "^2.0.1",
     "electron": "^17.2.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

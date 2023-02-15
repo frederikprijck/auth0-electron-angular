@@ -28,8 +28,6 @@ function createAuthWindow(url) {
   webRequest.onBeforeRequest(filter, async ({url}) => {
     if (url.indexOf('callback') > -1) {
       mainWindow.webContents.send('handleCallback', url);
-    } else if (url.indexOf('logout') > -1) {
-      mainWindow.webContents.send('logoutSuccess');
     }
 
     destroyAuthWin();

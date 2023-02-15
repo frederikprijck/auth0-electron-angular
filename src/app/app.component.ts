@@ -20,14 +20,6 @@ export class AppComponent {
         takeUntil(this.onDestroy$)
       )
       .subscribe();
-
-    this.listenToElectron<string>('logoutSuccess')
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(() => {
-        this.authService.logout({
-          localOnly: true,
-        });
-      });
   }
 
   ngOnDestroy() {
@@ -36,24 +28,27 @@ export class AppComponent {
   }
 
   login() {
-    this.authService.buildAuthorizeUrl().subscribe((url) => {
-      this.sendToElectron('login', url);
+    this.authService.loginWithRedirect({
+      openUrl: async (url) => {
+        this.sendToElectron('login', url);
+      },
     });
   }
 
   logout() {
-    this.authService
-      .buildLogoutUrl({
+    this.authService.logout({
+      logoutParams: {
         returnTo: 'http://localhost/logout',
-      })
-      .subscribe((url) => {
+      },
+      openUrl: async (url) => {
         this.sendToElectron('logout', url);
-      });
+      },
+    });
   }
 
   getToken(ignoreCache: boolean) {
     this.authService
-      .getAccessTokenSilently({ ignoreCache })
+      .getAccessTokenSilently({ cacheMode: ignoreCache ? 'off' : 'on' })
       .subscribe((token) => {
         console.log('token', token);
       });
